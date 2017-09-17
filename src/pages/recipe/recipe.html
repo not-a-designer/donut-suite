@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar hideBackButton color="hdGreen">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismiss()"><ion-icon name="arrow-back"></ion-icon></button>
+    </ion-buttons>
+    <ion-title>{{ selectedDonut.type }} - {{ selectedDonut.flavor }}</ion-title>
+    <ion-buttons right>
+      <button ion-fab mini item-right (click)="showSteps()"><ion-icon name="information"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar color="hdGreen">
+    <ion-item no-lines>
+      <ion-icon item-left name="bulb"></ion-icon>
+      <ion-label>Estimated yield: {{ myYield }} dz</ion-label>
+    </ion-item>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <!--<ion-item no-lines color="hdGreen">
+      <ion-label item-left>Estimated yield: {{ myYield }} dz</ion-label>
+      
+    </ion-item>-->
+
+
+    <ion-item-group *ngFor="let ingType of myTypes">
+      <ion-item-divider color="hdBrown">
+        <h3>{{ ingType | uppercase }}</h3>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let ingredient of selectedDonut.ingredients, let i = index" [hidden]="ingredient.type != ingType">
+        <ion-row>
+          <ion-col width-50 text-left>
+            <b color="hdBrown">{{ ingredient.name }}</b>
+          </ion-col>
+          <ion-col width-50 text-right>
+            {{ myQuantity[i] }}<span *ngIf="ingredient.name != ingredient.units">&nbsp;{{ ingredient.units }}</span>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-item-group>
+
+  </ion-list>
+</ion-content>

@@ -1,17 +1,113 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+<ion-header no-padding no-margin no-border>
+  <header [title]="pageTitle" [list]="donutService.getDonuts()" [pList]="prepService.getPrepList()"></header>
+  <ion-toolbar no-padding no-border color="hdGreen">
+    <ion-segment [(ngModel)]="recipes" (ionChange)="recipes === 'doughnuts' ? refreshDonutList() : refreshPrepList()">
+      <ion-segment-button value="doughnuts">
+        Doughnuts
+      </ion-segment-button>
+      <ion-segment-button value="prep">
+        Prep
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content [ngSwitch]="recipes">
+
+  <ion-list no-padding *ngSwitchCase="'doughnuts'">    
+    <ion-item-group no-padding *ngFor="let donut of donutList, let i = index">
+      <ion-item-divider color="hdBrown">
+        {{ donut.type }}&nbsp;{{ donut.flavor }}
+      </ion-item-divider>
+      <ion-item color="hdGreen">
+        <ion-select placeholder="full" class="inline" interface="popover" [(ngModel)]="fullBatches[i]">
+          <ion-option *ngFor="let fullsize of batchSizeFull" [value]="fullsize">{{ fullsize }}</ion-option>
+        </ion-select>
+
+        <ion-select placeholder="partial" class="inline" interface="popover" [(ngModel)]="partialBatches[i]">
+          <ion-option *ngFor="let partialsize of batchSizePartial" [value]="partialsize">{{ partialsize }}</ion-option>
+        </ion-select>
+
+          <button ion-fab item-right text-center mini outline color="clear" style="box-shadow: none;" (click)="editDonut(i)">
+            <ion-icon color="hdBrown" name="create"></ion-icon>
+          </button>
+
+          <button ion-fab item-right text-center mini color="hdGreen" (click)="showRecipeModal(i)">
+            <ion-icon color="hdBrown" name="calculator"></ion-icon>
+          </button>
+
+          <button ion-fab item-right text-center mini color="hdBrown" (click)="resetBatch(i)">
+            <ion-icon color="hdGreen" name="close"></ion-icon>
+          </button>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+    <!--<ion-item *ngFor="let d of donutList">
+      <h3>{{ d.type }}&nbsp;{{ d.flavor }}</h3>
+    </ion-item>
+-
+    <ion-item-group *ngFor="let item of donutList, let i = index">
+
+      <ion-item-divider color="hdBrown">
+        <h3 color="hdGreen">{{ item.donutType }}&nbsp;{{ item.donutFlavor }}</h3>
+      </ion-item-divider>
+
+      <ion-item no-padding style="width: 100% !important;">
+        <ion-select placeholder="full" class="inline" interface="popover" [(ngModel)]="fullBatches[i]" [selectOptions]="fOptions">
+          <ion-option [style.background-color]="green" *ngFor="let fullsize of BATCH_FULL_SIZE">{{ fullsize }}</ion-option>
+        </ion-select>
+
+        <ion-select placeholder="partial" class="inline" interface="popover" [(ngModel)]="partialBatches[i]" [selectOptions]="pOptions">
+          <ion-option *ngFor="let partialsize of BATCH_PARTIAL_SIZE">{{ partialsize }}</ion-option>
+        </ion-select>
+
+          <button ion-fab item-right text-center mini outline color="clear" style="box-shadow: none;" (click)="editDonut(i)">
+            <ion-icon color="hdBrown" name="create"></ion-icon>
+          </button>
+          <button ion-fab item-right text-center mini color="hdGreen" (click)="showRecipeModal(i)">
+            <ion-icon color="hdBrown" name="calculator"></ion-icon>
+          </button>
+          <button ion-fab item-right text-center mini color="hdBrown" (click)="resetBatch(i)">
+            <ion-icon color="hdGreen" name="close"></ion-icon>
+          </button>
+
+      </ion-item>
+
+    </ion-item-group>
+  </ion-list>-->
+
+  <ion-list *ngSwitchCase="'prep'">
+    <ion-item-group *ngFor="let item of prepList; let j = index">
+      <ion-item-divider color="hdBrown">
+        {{ item.name }}
+      </ion-item-divider>
+      <ion-item color="hdGreen">
+
+        <ion-select placeholder="full" class="inline" interface="popover" [(ngModel)]="prepBatches[j]">
+          <ion-option *ngFor="let size of prepBatchSizes" [value]="size">{{ size }}</ion-option>
+        </ion-select>
+
+        <button ion-fab item-right text-center mini outline color="clear" style="box-shadow: none;">
+          <ion-icon color="hdBrown" name="create"></ion-icon>
+        </button>
+
+        <button ion-fab item-right text-center mini color="hdGreen" (click)="showPrepModal(j)">
+          <ion-icon color="hdBrown" name="calculator"></ion-icon>
+        </button>
+
+        <button ion-fab item-right text-center mini outline color="hdBrown">
+          <ion-icon color="hdGreen" name="close"></ion-icon>
+        </button>
+
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
 </ion-content>
+<ion-footer no-padding no-border [ngSwitch]="recipes">
+  <button *ngSwitchCase="'doughnuts'" icon-right ion-button large full block (click)="refreshDonutList()">
+    Refresh DONUTS<ion-icon name="refresh"></ion-icon>
+  </button>
+  <button *ngSwitchCase="'prep'" icon-right ion-button large full block (click)="refreshPrepList()">
+    Refresh PREP<ion-icon name="refresh"></ion-icon>
+  </button>
+</ion-footer>

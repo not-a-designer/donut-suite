@@ -1,0 +1,32 @@
+<ion-header>
+
+  <header [title]="pageTitle"></header>
+  <ion-toolbar color="hdGreen">
+    {{ toolbarTitle }}
+    <ion-buttons right>
+      <button ion-fab color="clear" outline style="box-shadow: none;" (click)="showPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content no-padding>
+  <ion-list *ngIf="myFlavors.length > -1; else elseBlock">
+    <ion-item *ngFor="let flav of myFlavors; let i = index">
+      <ion-select class="inline" placeholder="Select flavor..." interface="popover" [(ngModel)]="myFlavors[i]">
+        <ion-option *ngFor="let flavor of flavors; let j = index" value="flavor">{{ flavor }}</ion-option>
+        <ion-input *ngIf="myFlavors[i] != null" type="text" placeholder="#"></ion-input>
+      </ion-select>
+      <button *ngIf="flavor" ion-fab mini outline style="box-shadow: none;"><ion-icon name="close"></ion-icon></button>
+    </ion-item>
+  </ion-list>  
+  <ng-template #elseBlock>
+    <ion-label>No Donuts</ion-label>
+  </ng-template>
+</ion-content>
+
+<ion-footer no-padding>
+  <button ion-button icon-right large full block color="hdBrown" (click)="addToList(AppleFritter)">Add Donut<ion-icon name="add"></ion-icon></button>
+</ion-footer>

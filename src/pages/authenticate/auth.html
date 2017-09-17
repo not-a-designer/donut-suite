@@ -1,0 +1,24 @@
+<ion-header>
+
+  <header [title]="pageTitle"></header>
+  <ion-toolbar no-border no-padding color="hdGreen">
+    <ion-segment [(ngModel)]="authMethod">
+      <ion-segment-button value="signup">
+        signup
+      </ion-segment-button>
+      <ion-segment-button value="signin">
+        signin
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding-top [ngSwitch]="authMethod">
+  <signup *ngIf="authMethod === 'signup'" 
+    (signinSuccess)="onNewUserCreated($event)"></signup>
+
+  <signin *ngIf="authMethod === 'signin'"
+    (loginSuccess)="doLogin($event)"></signin>
+
+</ion-content>

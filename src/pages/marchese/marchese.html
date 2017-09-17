@@ -1,0 +1,31 @@
+<ion-header>
+  <header [title]="pageTitle"></header>
+  <ion-toolbar no-padding no-border color="hdGreen">
+    <ion-segment [(ngModel)]="department">
+      <ion-segment-button value="tl">
+        Tasty Lab
+      </ion-segment-button>
+      <ion-segment-button value="hm">
+        Holey Moley
+      </ion-segment-button>
+      <ion-segment-button value="mp">
+        Miller Park
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding [ngSwitch]="department" >
+  <ion-list *ngSwitchCase="'tl'">
+    Tasty Lab
+  </ion-list>
+
+  <ion-list *ngSwitchCase="'hm'">
+    Holey Moley
+  </ion-list>
+
+  <ion-list *ngSwitchCase="'mp'">
+    Miller Park
+  </ion-list>
+</ion-content>

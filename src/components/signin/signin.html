@@ -1,0 +1,14 @@
+<ion-list>
+  <ion-item no-lines>
+    <ion-label floating>Email</ion-label>
+    <ion-input type="email" [(ngModel)]="email" required></ion-input>
+  </ion-item>
+  <ion-item no-lines>
+    <ion-label floating>Password</ion-label>
+    <ion-input type="password" [(ngModel)]="password" required></ion-input>
+  </ion-item>
+
+  <ion-item no-lines>
+    <button ion-button large full block (click)="onSignin()">Sign in</button>
+  </ion-item>
+</ion-list>
